@@ -1,0 +1,66 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+	x:Class="AnimationsWithVisualStates.MainWindow"
+	x:Name="Window"
+	Title="MainWindow"
+	Width="640" Height="480">
+
+	<Grid x:Name="LayoutRoot">
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="EstadosGrid">
+				<VisualStateGroup.Transitions>
+					<VisualTransition GeneratedDuration="0:0:1">
+						<VisualTransition.GeneratedEasingFunction>
+							<CubicEase EasingMode="EaseInOut"/>
+						</VisualTransition.GeneratedEasingFunction>
+					</VisualTransition>
+				</VisualStateGroup.Transitions>
+				<VisualState x:Name="Aparente"/>
+				<VisualState x:Name="Escondido">
+					<Storyboard>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="grid">
+							<EasingDoubleKeyFrame KeyTime="0" Value="-625"/>
+						</DoubleAnimationUsingKeyFrames>
+						<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="grid">
+							<EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+						</DoubleAnimationUsingKeyFrames>
+						<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="grid">
+							<DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+						</ObjectAnimationUsingKeyFrames>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition Height="40"/>
+		</Grid.RowDefinitions>
+		<ToggleButton x:Name="button" Content="Esconde" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="65" Height="25">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="Checked">
+					<i:Interaction.Behaviors>
+						<ei:ConditionBehavior>
+							<ei:ConditionalExpression>
+								<ei:ComparisonCondition LeftOperand="{Binding IsChecked, ElementName=checkBox}" RightOperand="True"/>
+							</ei:ConditionalExpression>
+						</ei:ConditionBehavior>
+					</i:Interaction.Behaviors>
+					<ei:GoToStateAction StateName="Escondido"/>
+				</i:EventTrigger>
+				<i:EventTrigger EventName="Unchecked">
+					<ei:GoToStateAction StateName="Aparente"/>
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+		</ToggleButton>
+		<Grid x:Name="grid" Background="#FFFF0404" RenderTransformOrigin="0.5,0.5">
+			<Grid.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform/>
+					<RotateTransform/>
+					<TranslateTransform/>
+				</TransformGroup>
+			</Grid.RenderTransform>
+		</Grid>
+		<CheckBox x:Name="checkBox" Content="Ativa transição" HorizontalAlignment="Right" Margin="0,12.02,102,14.98" Grid.Row="1" Width="127"/>
+	</Grid>
+</Window>

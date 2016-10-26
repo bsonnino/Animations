@@ -1,0 +1,30 @@
+﻿<Window x:Class="AnimationsWithComponents.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:transc="clr-namespace:Transitionals.Controls;assembly=Transitionals"
+        xmlns:transt="clr-namespace:Transitionals.Transitions;assembly=Transitionals"
+        xmlns:ViewModel="clr-namespace:AnimationsWithComponents.ViewModel"
+        xmlns:view="clr-namespace:AnimationsWithComponents.View"
+        Title="MainWindow" Height="350" Width="525"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type ViewModel:ViewModelA}" >
+            <view:ViewA />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModel:ViewModelB}" >
+            <view:ViewB />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <transc:TransitionElement x:Name="TransitionBox" Content="{Binding Conteudo}">
+            <transc:TransitionElement.Transition>
+                <transt:TranslateTransition  StartPoint="1,0" EndPoint="0,0" Duration="0:0:1"/>
+            </transc:TransitionElement.Transition>
+        </transc:TransitionElement>
+        <Button Width="65" Grid.Row="1" Content="Esconde" Margin="5" Command="{Binding EscondeCommand}" />
+    </Grid>
+</Window>
